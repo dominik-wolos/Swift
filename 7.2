@@ -1,1 +1,47 @@
+func mergeUniqueArrays(_ array1: [Int], _ array2: [Int]) -> [Int] 
+{
+    var mergedArray = [Int]()
+    
+    for element in array1 {
+        if !mergedArray.contains(element) {
+            mergedArray.append(element)
+        }
+    }
+    
+    for element in array2 {
+        if !mergedArray.contains(element) {
+            mergedArray.append(element)
+        }
+    }
+    
+    return mergedArray
+}
+
+func getArrayFromUser() -> [Int] 
+{
+    print("Podaj liczbę elementów")
+    guard let elemCount = Int(readLine()!) else {
+        print("Nieprawidłowa wartość")
+        exit(0)
+    }
+    
+    var arr : [Int] = [];
+    
+    for i in 0 ... elemCount-1 {
+        print("Podaj \(i+1) element")
+        guard let elem = Int(readLine()!) else {
+            print("Nieprawidłowa wartość")
+            exit(0)
+        }
+    
+        arr.append(elem)
+    }
+    
+    return arr
+}
+
+var arr1 = getArrayFromUser()
+var arr2 = getArrayFromUser()
+
+print(mergeUniqueArrays(arr1, arr2))
 

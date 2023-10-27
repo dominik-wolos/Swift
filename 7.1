@@ -1,0 +1,41 @@
+//
+//  main.swift
+//  Pollub
+//
+//  Created by Dominik Wołos on 27/10/2023.
+//
+
+import Foundation
+
+func findNumber(value: inout Int, number: inout Int) -> Bool {
+    while value > 0 {
+        let temp = value % 10
+        if temp == number {
+            return true
+        }
+        
+        value/=10
+    }
+    
+    return false
+}
+
+var result : Bool = false
+
+while !result {
+    
+    print("Podaj wartosc")
+    guard var value = Int(readLine()!) else {
+        print("Nieprawidłowa wartość")
+        exit(0)
+    }
+    
+    print("Podaj szukana liczbe")
+    guard var number = Int(readLine()!) else {
+        print("Nieprawidłowa wartość")
+        exit(0)
+    }
+    
+    result = findNumber(value: &value, number: &number)
+    print("Number exists : \(result)")
+}

@@ -1,0 +1,115 @@
+//
+//  main.swift
+//  Pollub
+//
+//  Created by Dominik Wołos on 27/10/2023.
+//
+
+import Foundation
+
+struct ComplexNumber 
+{
+    var real: Double
+    var imaginary: Double
+    
+    init(real: Double, imaginary: Double) 
+    {
+        self.real = real
+        self.imaginary = imaginary
+    }
+    
+    func add(_ other: ComplexNumber) -> ComplexNumber 
+    {
+        return ComplexNumber(real: self.real + other.real, imaginary: self.imaginary + other.imaginary)
+    }
+    
+    func subtract(_ other: ComplexNumber) -> ComplexNumber 
+    {
+        return ComplexNumber(real: self.real - other.real, imaginary: self.imaginary - other.imaginary)
+    }
+    
+    func multiply(_ other: ComplexNumber) -> ComplexNumber
+    {
+        let resultReal = self.real * other.real - self.imaginary * other.imaginary
+        let resultImaginary = self.real * other.imaginary + self.imaginary * other.real
+        return ComplexNumber(real: resultReal, imaginary: resultImaginary)
+    }
+    
+    func description() -> String 
+    {
+        return "\(real) \(imaginary)i"
+    }
+}
+
+func displayMenu() -> Void
+{
+    print("Menu:")
+    print("1. Dodawanie liczb zespolonych")
+    print("2. Odejmowanie liczb zespolonych")
+    print("3. Mnożenie liczb zespolonych")
+    print("4. Wyjście")
+    print("Wybierz opcję (1/2/3/4): ", terminator: "")
+}
+
+func getInput() -> Int
+{
+    guard let number = Int(readLine()!) else {
+        print("Nieprawidłowa wartość")
+        return -1
+    }
+    
+    return number
+}
+
+func getComplexNumber() -> (ComplexNumber)
+{
+    print("First real : ")
+    guard let real = Double(readLine()!) else {
+        print("Nieprawidłowa wartość")
+        exit(0)
+    }
+    
+    print("First imaginary : ")
+    guard let imaginary = Double(readLine()!) else {
+        print("Nieprawidłowa wartość")
+        exit(0)
+    }
+    
+    return ComplexNumber.init(real: real, imaginary: imaginary)
+}
+
+func processNumbers( _ number1 : ComplexNumber, _ number2 : ComplexNumber) -> Void
+{
+    var result : ComplexNumber
+    
+    switch option {
+        case 1 : do {
+            result = number1.add(number2)
+        }
+        case 2 : do {
+            result = number1.subtract(number2)
+        }
+        case 3 : do {
+            result = number1.multiply(number2)
+        }
+        default: do {
+            print("Coś poszło nie tak")
+            return
+        }
+    }
+    
+    print(result.description())
+}
+
+var option = 0;
+while(4 != option) {
+    displayMenu()
+    option = getInput()
+    
+    if (option > 4 || option < 1) {
+        print("Coś poszło nie tak")
+        continue
+    }
+    
+    processNumbers(getComplexNumber(), getComplexNumber())
+}

@@ -1,0 +1,107 @@
+//
+//  main.swift
+//  Pollub
+//
+//  Created by Dominik Wołos on 27/10/2023.
+//
+
+import Foundation
+
+struct Flight {
+    var departureAirport: (number: String, name: String)
+    var destinationAirport: (number: String, name: String)
+    var durationMinutes: Int
+}
+
+func readFlightData() -> Flight? {
+    print("Wprowadź dane lotu.")
+    
+    print("Miejsce wylotu (numer lotniska): ", terminator: "")
+    guard let departureNumber = readLine() else {
+        print("Nieprawidłowa wartość")
+        exit(0)
+    }
+    
+    print("Miejsce wylotu (nazwa lotniska): ", terminator: "")
+    guard let departureName = readLine(), !departureName.isEmpty else {
+        print("Nieprawidłowa wartość")
+        exit(0)
+    }
+    
+    
+    print("Miejsce docelowe (numer lotniska): ", terminator: "")
+    guard let destinationNumber = readLine() else {
+        print("Nieprawidłowa wartość")
+        exit(0)
+    }
+    
+    print("Miejsce wylotu (nazwa lotniska): ", terminator: "")
+    guard let destinationName = readLine(), !destinationName.isEmpty else {
+        print("Nieprawidłowa wartość")
+        exit(0)
+    }
+    
+    print("Czas lotu (minuty): ", terminator: "")
+    guard let flightTime = Int(readLine()!) else {
+        print("Nieprawidłowa wartość")
+        exit(0)
+    }
+    
+    return Flight(
+        departureAirport: (number: departureNumber, name: departureName),
+        destinationAirport: (number: destinationNumber, name: destinationName),
+        durationMinutes: flightTime
+    );
+}
+
+
+// Funkcja do obliczenia średniej długości lotów
+func calculateAverageDuration(of flights: [Flight]) -> Int {
+    let totalDuration = flights.reduce(0) { $0 + $1.durationMinutes }
+    return (Int)(Double(totalDuration) / Double(flights.count))
+}
+
+// Funkcja do wyświetlania danych wszystkich lotów
+func displayFlights(_ flights: [Flight]) {
+    for (index, flight) in flights.enumerated() {
+        print("Lot \(index + 1):")
+        print("Miejsce wylotu: \(flight.departureAirport.number) - \(flight.departureAirport.name)")
+        print("Miejsce docelowe: \(flight.destinationAirport.number) - \(flight.destinationAirport.name)")
+        print("Czas podróży: \(flight.durationMinutes) minut")
+    }
+}
+
+
+var flights = [Flight]()
+
+print("Podaj liczbę lotów do zarejestrowania: ", terminator: "")
+
+if let numFlightsInput = readLine(), let numFlights = Int(numFlightsInput) {
+    for _ in 1...numFlights {
+        if let flight = readFlightData() {
+            flights.append(flight)
+        }
+    }
+    
+    if flights.isEmpty {
+        print("Brak zarejestrowanych lotów.")
+        exit(0)
+    }
+    
+    displayFlights(flights)
+    
+    let averageDuration = calculateAverageDuration(of: flights)
+    print("Średni czas podróży wszystkich lotów: \(averageDuration) minut")
+    
+    let filteredFlights = flights.filter { $0.durationMinutes > averageDuration }
+    print("Loty trwające dłużej niż średnia:")
+    displayFlights(filteredFlights)
+    
+    flights.removeAll { $0.durationMinutes < averageDuration }
+    
+    print("Usunięto loty krótsze niż średnia.")
+    displayFlights(flights)
+} else {
+    print("Niepoprawna liczba lotów. Program zostanie zakończony.")
+}
+

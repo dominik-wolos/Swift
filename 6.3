@@ -1,0 +1,63 @@
+//
+//  main.swift
+//  Pollub
+//
+//  Created by Dominik Wołos on 27/10/2023.
+//
+
+import Foundation
+
+print("Podaj liczbę elementów")
+guard let elemCount = Int(readLine()!) else {
+    print("Nieprawidłowa wartość")
+    exit(0)
+}
+
+var arr : [Int] = [];
+
+for i in 0 ... elemCount-1 {
+    print("Podaj \(i+1) element")
+    guard let elem = Int(readLine()!) else {
+        print("Nieprawidłowa wartość")
+        exit(0)
+    }
+    
+    arr.append(elem)
+}
+var maxLength : Int = 0;
+var currentLength : Int = 0;
+var maxIndex : Int? = nil;
+var currentIndex : Int? = nil
+
+var decreasingSequenceChecker : Bool = true;
+
+for i in 1...arr.count-1 {
+    if arr[i] > arr[i - 1] {
+        decreasingSequenceChecker = false
+
+        if (nil != currentIndex) {
+            currentLength += 1
+            continue;
+        }
+        
+        currentIndex = i
+        currentLength = 2
+        
+        continue;
+    }
+    
+    if (currentLength > maxLength) {
+        maxIndex = currentIndex
+        maxLength = currentLength
+    }
+    
+    currentIndex = nil;
+}
+
+print("Is decreasing sequence: \(decreasingSequenceChecker)")
+
+if nil == maxIndex {
+    print("No increasing subsequence")
+}
+
+print("Longest subsequence index \((maxIndex!)-1), lenght: \(maxLength)")

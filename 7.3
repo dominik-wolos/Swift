@@ -1,0 +1,40 @@
+//
+//  main.swift
+//  Pollub
+//
+//  Created by Dominik Wołos on 27/10/2023.
+//
+
+import Foundation
+
+typealias Person = (name: String, lastname: String, yearOfBirth: Int)
+
+
+func resolveOlder(_ person1: Person, _ person2: Person) -> Int {
+    if person1.yearOfBirth == person2.yearOfBirth {
+        return 0
+    }
+    
+    return person1.yearOfBirth > person2.yearOfBirth ? 1 : 2
+}
+
+func displayOlder(_ person1: Person, _ person2: Person) -> Void {
+    let result = resolveOlder(person1, person2)
+    if 1 != result {
+        print(person2)
+    }
+    
+    if 2 != result {
+        print(person1)
+    }
+}
+
+var fPerson : Person = (name: "Igor", lastname: "Kowalski", yearOfBirth: 18)
+var mPerson : Person = (name: "Igor", lastname: "Kowalski", yearOfBirth: 19)
+var lPerson : Person = (name: "Igor", lastname: "Kowalski", yearOfBirth: 20)
+
+displayOlder(fPerson, mPerson)
+print("---")
+displayOlder(lPerson, mPerson)
+print("---")
+displayOlder(mPerson, mPerson)

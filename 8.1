@@ -10,7 +10,8 @@ import Foundation
 typealias Person = (name: String, lastname: String, yearOfBirth: Int)
 
 
-func resolveOlder(_ person1: Person, _ person2: Person) -> Int {
+func resolveOlder(_ person1: Person, _ person2: Person) -> Int 
+{
     if person1.yearOfBirth == person2.yearOfBirth {
         return 0
     }
@@ -18,7 +19,8 @@ func resolveOlder(_ person1: Person, _ person2: Person) -> Int {
     return person1.yearOfBirth > person2.yearOfBirth ? 1 : 2
 }
 
-func displayOlder(_ person1: Person, _ person2: Person) -> Void {
+func displayOlder(_ person1: Person, _ person2: Person) -> Void 
+{
     let result = resolveOlder(person1, person2)
     if 1 != result {
         print(person2)

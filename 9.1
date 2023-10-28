@@ -105,6 +105,10 @@ var option = 0;
 while(4 != option) {
     displayMenu()
     option = getInput()
+
+    if (option == 4) {
+        continue
+    }
     
     if (option > 4 || option < 1) {
         print("Coś poszło nie tak")

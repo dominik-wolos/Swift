@@ -1,0 +1,104 @@
+class Person {
+  var name : String;
+  var lName : String;
+  var birthYear : Int;
+
+  init(_ name : String, _ lName : String, _ birthYear : Int)
+  {
+    self.name = name;
+    self.lName = lName;
+    self.birthYear = birthYear
+  }
+
+  func getAge(_ currentYear : Int = 2023) -> Int
+  {
+    return currentYear - self.birthYear;
+  }
+
+  func toString() -> String
+  {
+    return """
+      Imie: \(self.name)
+      Nazwisko: \(self.lName)
+      Rok urodzenia: \(self.birthYear)
+    """
+  }
+}
+
+enum Position : String {
+  case developer = "Developer"
+  case project_manager = "Project manager"
+  case product_owner = "Product owner"
+  case ceo = "CEO"
+}
+
+class Employee : Person {
+  var hiredAt : Int;
+  var position : Position;
+  var hourlyWage : Double;
+  var hoursWorked : Double;
+
+  init(
+    _ name : String,
+    _ lName : String,
+    _ birthYear : Int,
+    _ hiredAt : Int,
+    _ position : Position,
+    _ hourlyWage : Double,
+    _ hoursWorked : Double
+  ) {
+    self.hiredAt = hiredAt
+    self.position = position
+    self.hourlyWage = hourlyWage
+    self.hoursWorked = hoursWorked
+
+    super.init(name, lName, birthYear)
+  }
+
+  func getCooperationLength() -> Int{
+    return 2023 - self.hiredAt
+  }
+
+  func getSalary() -> Double {
+    return self.hourlyWage * self.hoursWorked
+  }
+
+  override func toString() -> String 
+  {
+    return """
+      Imie: \(self.name)
+      Nazwisko: \(self.lName)
+      Rok urodzenia: \(self.birthYear)
+      Rok zatrudnienia: \(self.hiredAt)
+      Pozycja: \(self.position.rawValue)
+      Stawka godzinowa: \(self.hourlyWage)
+      Przepracowane godziny: \(self.hoursWorked)
+      Dlugosc wspolpracy: \(self.getCooperationLength())
+      Wyplata: \(self.getSalary())
+    """
+  }
+}
+
+var employee = Employee(
+      "Dominik",
+      "Wolos",
+      1955,
+      1970,
+      Position.developer,
+      7.50,
+      10.0
+)
+
+var employee2 = Employee(
+      "Dominik",
+      "Wolos",
+      1985,
+      1999,
+      Position.ceo,
+      1700.50,
+      100.0
+)
+
+print(employee.toString())
+print("*****")
+print(employee2.toString())

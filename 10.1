@@ -1,0 +1,37 @@
+class Person {
+  var name : String;
+  var lName : String;
+  var birthYear : Int;
+
+  init(_ name : String, _ lName : String, _ birthYear : Int)
+  {
+    self.name = name;
+    self.lName = lName;
+    self.birthYear = birthYear
+  }
+
+  func getAge(_ currentYear : Int = 2023) -> Int
+  {
+    return currentYear - self.birthYear;
+  }
+
+  func toString() -> String
+  {
+    return """
+      Imie: \(self.name)
+      Nazwisko: \(self.lName)
+      Rok urodzenia: \(self.birthYear)
+    """
+  }
+}
+
+var person = Person("Dominik", "Wolos", 1955)
+var grandpa = Person("Jan", "Kowalski", 1955)
+
+if (person.getAge() >= grandpa.getAge()) {
+  print(person.toString())
+}
+
+if (person.getAge() <= grandpa.getAge()) {
+  print(grandpa.toString())
+}

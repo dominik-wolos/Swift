@@ -1,0 +1,499 @@
+//
+//  main.swift
+//  Laboratorium
+//
+//  Created by student on 28/10/2023.
+//
+
+import Foundation
+
+func zad_6_1() -> Void 
+{
+    let arr = Array(repeating: 12, count: 10)
+    print(arr)
+
+    var arr2 = arr
+    print("Podaj liczbę całkowitą do wstawienia na 0 pozycję")
+
+    guard let input = readLine(),
+          let inputNumber = Int(input) else {
+        print("Nieprawidłowa wartość")
+        exit(0)
+    }
+
+    arr2.insert(inputNumber, at: 0)
+    print(arr2)
+
+
+    var arr3 = arr
+    print("Podaj pozycję na którą mam wstawić element")
+
+    guard let input = readLine(),
+          var position = Int(input) else {
+        print("Nieprawidłowa wartość")
+        exit(0)
+    }
+    
+    position = min(arr3.count, position)
+    arr3.insert(inputNumber, at: position)
+    print(arr3)
+}
+
+func zad_6_2 () -> Void
+{
+    print("Podaj liczbę elementów")
+    guard let elemCount = Int(readLine()!) else {
+        print("Nieprawidłowa wartość")
+        exit(0)
+    }
+    
+    var arr : [Int] = [];
+    
+    for i in 0 ... elemCount-1 {
+        print("Podaj \(i+1) element")
+        guard let elem = Int(readLine()!) else {
+            print("Nieprawidłowa wartość")
+            exit(0)
+        }
+    
+        arr.append(elem)
+    }
+    
+    print("Podaj liczbe całkowitą która moze być pierwsza lub ostatnia")
+    guard let number = Int(readLine()!) else {
+        print("Nieprawidłowa wartość")
+        exit(0)
+    }
+    
+    if (arr.first == number) {
+        print("\(number) to pierwszy element")
+    } else if (arr.last == number) {
+        print("\(number) to ostatni element")
+    } else {
+        print("\(number) nie jest ani pierwszym ani ostatnim elementem")
+    }
+    
+    let sortedArray = arr.sorted();
+    print(sortedArray)
+    
+    print("Najmniejszy \(sortedArray.first!), Największy \(sortedArray.last!)")
+}
+
+func zad_6_3 () -> Void 
+{
+    print("Podaj liczbę elementów")
+    guard let elemCount = Int(readLine()!) else {
+        print("Nieprawidłowa wartość")
+        exit(0)
+    }
+
+    var arr : [Int] = [];
+
+    for i in 0 ... elemCount-1 {
+        print("Podaj \(i+1) element")
+        guard let elem = Int(readLine()!) else {
+            print("Nieprawidłowa wartość")
+            exit(0)
+        }
+        
+        arr.append(elem)
+    }
+    var maxLength : Int = 0;
+    var currentLength : Int = 0;
+    var maxIndex : Int? = nil;
+    var currentIndex : Int? = nil
+
+    var decreasingSequenceChecker : Bool = true;
+
+    for i in 1...arr.count-1 {
+        if arr[i] > arr[i - 1] {
+            decreasingSequenceChecker = false
+
+            if (nil != currentIndex) {
+                currentLength += 1
+                continue;
+            }
+            
+            currentIndex = i
+            currentLength = 2
+            
+            continue;
+        }
+        
+        if (currentLength > maxLength) {
+            maxIndex = currentIndex
+            maxLength = currentLength
+        }
+        
+        currentIndex = nil;
+    }
+
+    print("Is decreasing sequence: \(decreasingSequenceChecker)")
+
+    if nil == maxIndex {
+        print("No increasing subsequence")
+        
+        return;
+    }
+
+    print("Longest subsequence index \((maxIndex!)-1), lenght: \(maxLength)")
+}
+
+func zad_7_1 () -> Void
+{
+    func findNumber(value: inout Int, number: inout Int) -> Bool {
+        while value > 0 {
+            let temp = value % 10
+            if temp == number {
+                return true
+            }
+            
+            value/=10
+        }
+        
+        return false
+    }
+
+    var result : Bool = false
+
+    while !result {
+        
+        print("Podaj wartosc")
+        guard var value = Int(readLine()!) else {
+            print("Nieprawidłowa wartość")
+            exit(0)
+        }
+        
+        print("Podaj szukana liczbe")
+        guard var number = Int(readLine()!) else {
+            print("Nieprawidłowa wartość")
+            exit(0)
+        }
+        
+        result = findNumber(value: &value, number: &number)
+        print("Number exists : \(result)")
+    }
+}
+
+func zad_7_2 () -> Void
+{
+    func mergeUniqueArrays(_ array1: [Int], _ array2: [Int]) -> [Int]
+    {
+        var mergedArray = [Int]()
+        
+        for element in array1 {
+            if !mergedArray.contains(element) {
+                mergedArray.append(element)
+            }
+        }
+        
+        for element in array2 {
+            if !mergedArray.contains(element) {
+                mergedArray.append(element)
+            }
+        }
+        
+        return mergedArray
+    }
+
+    func getArrayFromUser() -> [Int]
+    {
+        print("Podaj liczbę elementów")
+        guard let elemCount = Int(readLine()!) else {
+            print("Nieprawidłowa wartość")
+            exit(0)
+        }
+        
+        var arr : [Int] = [];
+        
+        for i in 0 ... elemCount-1 {
+            print("Podaj \(i+1) element")
+            guard let elem = Int(readLine()!) else {
+                print("Nieprawidłowa wartość")
+                exit(0)
+            }
+        
+            arr.append(elem)
+        }
+        
+        return arr
+    }
+
+    let arr1 = getArrayFromUser()
+    let arr2 = getArrayFromUser()
+
+    print(mergeUniqueArrays(arr1, arr2))
+}
+
+func zad_8_1 () -> Void
+{
+    typealias Person = (name: String, lastname: String, yearOfBirth: Int)
+
+    func resolveOlder(_ person1: Person, _ person2: Person) -> Int
+    {
+        if person1.yearOfBirth == person2.yearOfBirth {
+            return 0
+        }
+        
+        return person1.yearOfBirth > person2.yearOfBirth ? 1 : 2
+    }
+
+    func displayOlder(_ person1: Person, _ person2: Person) -> Void
+    {
+        let result = resolveOlder(person1, person2)
+        if 1 != result {
+            print(person2)
+        }
+        
+        if 2 != result {
+            print(person1)
+        }
+    }
+
+    let fPerson : Person = (name: "Igor", lastname: "Kowalski", yearOfBirth: 18)
+    let mPerson : Person = (name: "Igor", lastname: "Kowalski", yearOfBirth: 19)
+    let lPerson : Person = (name: "Igor", lastname: "Kowalski", yearOfBirth: 20)
+
+    displayOlder(fPerson, mPerson)
+    print("---")
+    displayOlder(lPerson, mPerson)
+    print("---")
+    displayOlder(mPerson, mPerson)
+}
+
+func zad_9_1 () -> Void
+{
+    struct ComplexNumber
+    {
+        var real: Double
+        var imaginary: Double
+        
+        init(real: Double, imaginary: Double)
+        {
+            self.real = real
+            self.imaginary = imaginary
+        }
+        
+        func add(_ other: ComplexNumber) -> ComplexNumber
+        {
+            return ComplexNumber(real: self.real + other.real, imaginary: self.imaginary + other.imaginary)
+        }
+        
+        func subtract(_ other: ComplexNumber) -> ComplexNumber
+        {
+            return ComplexNumber(real: self.real - other.real, imaginary: self.imaginary - other.imaginary)
+        }
+        
+        func multiply(_ other: ComplexNumber) -> ComplexNumber
+        {
+            let resultReal = self.real * other.real - self.imaginary * other.imaginary
+            let resultImaginary = self.real * other.imaginary + self.imaginary * other.real
+            return ComplexNumber(real: resultReal, imaginary: resultImaginary)
+        }
+        
+        func description() -> String
+        {
+            return "\(real) \(imaginary)i"
+        }
+    }
+
+    func displayMenu() -> Void
+    {
+        print("Menu:")
+        print("1. Dodawanie liczb zespolonych")
+        print("2. Odejmowanie liczb zespolonych")
+        print("3. Mnożenie liczb zespolonych")
+        print("4. Wyjście")
+        print("Wybierz opcję (1/2/3/4): ", terminator: "")
+    }
+
+    func getInput() -> Int
+    {
+        guard let number = Int(readLine()!) else {
+            print("Nieprawidłowa wartość")
+            return -1
+        }
+        
+        return number
+    }
+
+    func getComplexNumber() -> (ComplexNumber)
+    {
+        print("Rzeczywista : ")
+        guard let real = Double(readLine()!) else {
+            print("Nieprawidłowa wartość")
+            exit(0)
+        }
+        
+        print("Urojona : ")
+        guard let imaginary = Double(readLine()!) else {
+            print("Nieprawidłowa wartość")
+            exit(0)
+        }
+        
+        return ComplexNumber.init(real: real, imaginary: imaginary)
+    }
+
+    func processNumbers( _ number1 : ComplexNumber, _ number2 : ComplexNumber) -> Void
+    {
+        var result : ComplexNumber
+        
+        switch option {
+            case 1 : do {
+                result = number1.add(number2)
+            }
+            case 2 : do {
+                result = number1.subtract(number2)
+            }
+            case 3 : do {
+                result = number1.multiply(number2)
+            }
+            default: do {
+                print("Coś poszło nie tak")
+                return
+            }
+        }
+        
+        print(result.description())
+    }
+
+    var option = 0;
+    while(4 != option) {
+        displayMenu()
+        option = getInput()
+        
+        if (option == 4) {
+            continue
+        }
+        
+        if (option > 4 || option < 1) {
+            print("Coś poszło nie tak")
+            continue
+        }
+        
+        processNumbers(getComplexNumber(), getComplexNumber())
+    }
+}
+
+
+func zad_9_2 () -> Void
+{
+    struct Flight {
+        var departureAirport: (number: String, name: String)
+        var destinationAirport: (number: String, name: String)
+        var durationMinutes: Int
+    }
+
+    func readFlightData() -> Flight? {
+        print("Wprowadź dane lotu.")
+        
+        print("Miejsce wylotu (numer lotniska): ", terminator: "")
+        guard let departureNumber = readLine() else {
+            print("Nieprawidłowa wartość")
+            exit(0)
+        }
+        
+        print("Miejsce wylotu (nazwa lotniska): ", terminator: "")
+        guard let departureName = readLine(), !departureName.isEmpty else {
+            print("Nieprawidłowa wartość")
+            exit(0)
+        }
+        
+        
+        print("Miejsce docelowe (numer lotniska): ", terminator: "")
+        guard let destinationNumber = readLine() else {
+            print("Nieprawidłowa wartość")
+            exit(0)
+        }
+        
+        print("Miejsce wylotu (nazwa lotniska): ", terminator: "")
+        guard let destinationName = readLine(), !destinationName.isEmpty else {
+            print("Nieprawidłowa wartość")
+            exit(0)
+        }
+        
+        print("Czas lotu (minuty): ", terminator: "")
+        guard let flightTime = Int(readLine()!) else {
+            print("Nieprawidłowa wartość")
+            exit(0)
+        }
+        
+        return Flight(
+            departureAirport: (number: departureNumber, name: departureName),
+            destinationAirport: (number: destinationNumber, name: destinationName),
+            durationMinutes: flightTime
+        );
+    }
+
+
+    func calculateAverageDuration(of flights: [Flight]) -> Int {
+        let totalDuration = flights.reduce(0) { $0 + $1.durationMinutes }
+        return (Int)(Double(totalDuration) / Double(flights.count))
+    }
+
+    func displayFlights(_ flights: [Flight]) {
+        for (index, flight) in flights.enumerated() {
+            print("Lot \(index + 1):")
+            print("Miejsce wylotu: \(flight.departureAirport.number) - \(flight.departureAirport.name)")
+            print("Miejsce docelowe: \(flight.destinationAirport.number) - \(flight.destinationAirport.name)")
+            print("Czas podróży: \(flight.durationMinutes) minut")
+        }
+    }
+
+
+    var flights = [Flight]()
+
+    print("Podaj liczbę lotów do zarejestrowania: ", terminator: "")
+
+    if let numFlightsInput = readLine(), let numFlights = Int(numFlightsInput) {
+        for _ in 1...numFlights {
+            if let flight = readFlightData() {
+                flights.append(flight)
+            }
+        }
+        
+        if flights.isEmpty {
+            print("Brak zarejestrowanych lotów.")
+            exit(0)
+        }
+        
+        displayFlights(flights)
+        
+        let averageDuration = calculateAverageDuration(of: flights)
+        print("Średni czas podróży wszystkich lotów: \(averageDuration) minut")
+        
+        let filteredFlights = flights.filter { $0.durationMinutes > averageDuration }
+        print("Loty trwające dłużej niż średnia:")
+        displayFlights(filteredFlights)
+        
+        flights.removeAll { $0.durationMinutes < averageDuration }
+        
+        print("Usunięto loty krótsze niż średnia.")
+        displayFlights(flights)
+    } else {
+        print("Niepoprawna liczba lotów. Program zostanie zakończony.")
+    }
+}
+
+func zad_9_3 () -> Void
+{
+    var vehicleCompanies : Set = ["Volkswagen", "Audi", "Fiat", "Mazda", "Mercedes", "Alfa Romeo"];
+    print(vehicleCompanies)
+    
+    print("Podaj nazwe marki samochodowej, jezeli istnieje w zbiorze to go usune: ", terminator: "")
+    guard let company = readLine() else {
+        print("Nieprawidłowa wartość")
+        exit(0)
+    }
+    
+    if (vehicleCompanies.contains(company)) {
+        print("Usuwanie \(company) z listy")
+        vehicleCompanies.remove(company)
+    } else {
+        print("Marka \(company) nie istnieje")
+    }
+    
+    print("Zbior po wykonanej operacji : \(vehicleCompanies)")
+}
+
+zad_9_2()

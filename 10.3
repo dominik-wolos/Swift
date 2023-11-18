@@ -1,95 +1,158 @@
 class Person {
-  var name : String;
-  var lName : String;
-  var birthYear : Int;
+    var name : String;
+    var lName : String;
+    var birthYear : Int;
 
-  init(_ name : String, _ lName : String, _ birthYear : Int)
-  {
-    self.name = name;
-    self.lName = lName;
-    self.birthYear = birthYear
+    init(_ name : String, _ lName : String, _ birthYear : Int)
+    {
+      self.name = name;
+      self.lName = lName;
+      self.birthYear = birthYear
+    }
+
+    func getAge(_ currentYear : Int = 2023) -> Int
+    {
+      return currentYear - self.birthYear;
+    }
+
+    func toString() -> String
+    {
+      return """
+        Imie: \(self.name)
+        Nazwisko: \(self.lName)
+        Rok urodzenia: \(self.birthYear)
+      """
+    }
   }
 
-  func getAge(_ currentYear : Int = 2023) -> Int
-  {
-    return currentYear - self.birthYear;
+  enum Profile : String, CaseIterable {
+    case inf = "Informatyka"
+    case mat = "Matematyka"
+    case fiz = "Fizyka"
   }
 
-  func toString() -> String
-  {
-    return """
-      Imie: \(self.name)
-      Nazwisko: \(self.lName)
-      Rok urodzenia: \(self.birthYear)
-    """
-  }
-}
-
-enum Profile : String {
-  case inf = "Informatyka"
-  case mat = "Matematyka"
-  case fiz = "Fizyka"
-}
-
-class Student : Person {
-  var studyYear : Int;
-  var profile : Profile;
-  var indexNumber : Int;
-  var sub1Grade: Double;
-  var sub2Grade : Double;
-  var sub3Grade : Double;
-  var sub4Grade : Double;
-  var sub5Grade : Double;
+  class Student : Person {
+    var studyYear : Int;
+    var profile : Profile;
+    var indexNumber : Int;
+    var grades: [Double];
 
 
-  init(
-    _ name : String,
-    _ lName : String,
-    _ birthYear : Int,
-    _ studyYear : Int,
-    _ profile : Profile,
-    _ indexNumber : Int,
-    _ sub1Grade : Double,
-    _ sub2Grade : Double,
-    _ sub3Grade : Double,
-    _ sub4Grade : Double,
-    _ sub5Grade : Double,
-  ) {
-    guard (2...5).contains(sub1Grade) &&
-        (2...5).contains(sub2Grade) &&
-        (2...5).contains(sub3Grade) &&
-        (2...5).contains(sub4Grade) &&
-        (2...5).contains(sub5Grade) else {
-        fatalError("Grades must be between 2 and 5 with a step of 0.5")
+    init(
+      _ name : String,
+      _ lName : String,
+      _ birthYear : Int,
+      _ studyYear : Int,
+      _ profile : Profile,
+      _ indexNumber : Int,
+      _ grades : [Double]
+    ) {
+      self.studyYear = studyYear
+      self.profile = profile
+      self.indexNumber = indexNumber
+      self.grades = grades
+      
+      super.init(name, lName, birthYear)
+    }
+
+    func getAvg() -> Double {
+        return (grades.reduce(0, +))/Double(grades.count)
     }
     
-    self.studyYear = studyYear
-    self.profile = profile
-    self.indexNumber = indexNumber
-    self.sub1Grade = sub1Grade
-    self.sub2Grade = sub2Grade
-    self.sub3Grade = sub3Grade
-    self.sub4Grade = sub4Grade
-    self.sub5Grade = sub5Grade
-    
-    super.init(name, lName, birthYear)
+    override func toString() -> String
+    {
+      return """
+        Imie: \(self.name)
+        Nazwisko: \(self.lName)
+        Rok urodzenia: \(self.birthYear)
+        Rok studiow: \(self.studyYear)
+        Profil: \(self.profile.rawValue)
+        Numer albumu: \(self.indexNumber)
+        Srednia ocen: \(self.getAvg())
+      """
+    }
   }
 
-  func getAvg() -> Double {
-    return (sub1Grade + sub2Grade + sub3Grade + sub4Grade + sub5Grade)/5.0
-  }
-  
-  override func toString() -> String 
-  {
-    return """
-      Imie: \(self.name)
-      Nazwisko: \(self.lName)
-      Rok urodzenia: \(self.birthYear)
-      Rok studiow: \(self.studyYear)
-      Profil: \(self.profile.rawValue)
-      Numer albumu: \(self.indexNumber)
-      Srednia ocen: \(self.getAvg())
-    """
-  }
+func getInput() -> Int
+{
+    guard let number = Int(readLine()!) else {
+        print("Nieprawidłowa wartość")
+        return -1
+    }
+    
+    return number
 }
-INCOMPLETE !!!
+
+func getStudentFromInput() -> Student
+{
+    print("Wprowadź imie.", terminator: "")
+    guard let fName = readLine() else {
+        print("Nieprawidłowa wartość")
+        exit(0)
+    }
+    print("Wprowadź nazwisko.")
+    guard let lName = readLine() else {
+        print("Nieprawidłowa wartość")
+        exit(0)
+    }
+    print("Wprowadź rok urodzenia.")
+    guard let birthYear = Int(readLine()!) else {
+        print("Nieprawidłowa wartość")
+        exit(0)
+    }
+    print("Wprowadź rok studiow.")
+    guard let studyYear = Int(readLine()!) else {
+        print("Nieprawidłowa wartość")
+        exit(0)
+    }
+    
+    let enumKeys = ["inf", "mat", "fiz"]
+                    
+    print("Wprowadź profil z dostepnych \(enumKeys).")
+    guard let inp = readLine(),
+            enumKeys.contains(inp)
+    else {
+        print("Nieprawidłowa wartość")
+        exit(0)
+    }
+    print("Wprowadź numer indeksu.")
+    guard let indexNumber = Int(readLine()!) else {
+        print("Nieprawidłowa wartość")
+        exit(0)
+    }
+    
+    var grades : [Double]
+    grades = []
+    for i in 1...5 {
+        print("Podaj \(i) ocene : ")
+        guard let grade = Double(readLine()!),
+              (2...5).contains(grade) else {
+            print("Nieprawidłowa wartość")
+            exit(0)
+        }
+        grades.append(grade)
+    }
+
+    return Student(fName,
+                   lName,
+                   birthYear,
+                   studyYear,
+                   Profile.allCases[Int(enumKeys.firstIndex(of: inp)!)],
+                   indexNumber,
+                   grades
+    )
+}
+
+var students : [Student]
+students = []
+print("Podaj liczbe studentow ktora chcesz wczytac")
+var count = getInput()
+
+for _ in 1...count {
+    let student = getStudentFromInput()
+    students.append(student)
+}
+
+for student in students {
+    print(student.toString())
+}
